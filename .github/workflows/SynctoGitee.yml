@@ -21,12 +21,14 @@ jobs:
     runs-on: windows-latest
 
     steps:
-    - uses: actions/checkout@v4
+    # - uses: actions/checkout@v4
 
-    - name: Add MSBuild to PATH
-      uses: microsoft/setup-msbuild@v2
+    # - name: Add MSBuild to PATH
+      # uses: microsoft/setup-msbuild@v2
     - name : git to gitee
       run: |
            eval `ssh-agent`
-           ssh-add ${{ secrets.GITEE_RSA_PRIVATE_KEY }}
+           echo ${{ secrets.GITEE_RSA_PRIVATE_KEY }}>>.\id_rsa
+           ssh-add .\id_rsa
            ssh -T git@gitee.com
+           Remove-Item .\id_rsa
