@@ -18,7 +18,7 @@ permissions:
 
 jobs:
   build:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
 
     steps:
     # - uses: actions/checkout@v4
@@ -28,7 +28,7 @@ jobs:
     - name : git to gitee
       run: |
            eval `ssh-agent`
-           echo "${{ secrets.GITEE_RSA_PRIVATE_KEY }}">>.\id_rsa
-           ssh-add .\id_rsa
+           echo "${{ secrets.GITEE_RSA_PRIVATE_KEY }}">>./id_rsa
+           ssh-add ./id_rsa
            ssh -T git@gitee.com
-           Remove-Item .\id_rsa
+           rm ./id_rsa
