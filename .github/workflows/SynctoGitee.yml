@@ -1,0 +1,32 @@
+name: SynctoGitee
+
+on:
+  push:
+    branches: [ "main" ]
+
+env:
+  # Path to the solution file relative to the root of the project.
+  SOLUTION_FILE_PATH: .
+
+  # Configuration type to build.
+  # You can convert this to a build matrix if you need coverage of multiple configuration types.
+  # https://docs.github.com/actions/learn-github-actions/managing-complex-workflows#using-a-build-matrix
+  #BUILD_CONFIGURATION: Release
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Add MSBuild to PATH
+      uses: microsoft/setup-msbuild@v2
+    - name : git to gitee
+      run: |
+           eval `ssh-agent`
+           ssh-add ${{ secrets.GITEE_RSA_PRIVATE_KEY }}
+           ssh -T git@gitee.com
